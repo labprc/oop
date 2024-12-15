@@ -1,0 +1,123 @@
+Problem Statement:
+Write a python program to store marks stored in subject "Fundamentals of Data Structure" by
+                         N students in the class. Write functions to compute following:
+                         1. The average score of the class.
+                         2. Highest score and lowest score of the class.
+                         3. Count of students who were absent for the test.
+                         4. Display mark with highest frequency.
+
+Code
+#function for average score of the class
+def average(listofmarks):
+        sum=0
+        count=0
+        for i in range(len(listofmarks)):
+          if listofmarks[i]!=-999:
+            sum+=listofmarks[i]
+            count+=1
+        avg=sum/count
+        print("total marks:",sum)
+        print("average marks:{:.2f}".format(avg))
+        
+#function for highest score in the test for the  class
+def Maximum(listofmarks):
+        for i in range(len(listofmarks)):
+          if  listofmarks[i]!=-999:
+            Max= listofmarks[0]
+            break
+        for i in range(1,len(listofmarks)):
+          if listofmarks[i]>Max:
+            Max=listofmarks[i]
+        return(Max)
+#unction for lowest score in the test for the  class
+def Minimum(listofmarks):
+          for i in range(len(listofmarks)):
+             if  listofmarks[i]!=-999:
+               Min=listofmarks[0]
+               break
+          for i in range (1,len(listofmarks)):
+             if listofmarks[i]<Min:
+               Min=listofmarks[i]
+          return(Min)
+#function for counting the number of students absent for the test
+def absentcount(listofmarks):
+      count=0
+      for i in range(len(listofmarks)):
+        if listofmarks[i]==-999:
+          count+=1
+      return(count)
+#function for displaying the marks with highest frequency
+def  maxfrequency(listofmarks):
+      i=0
+      Max=0
+      print("Marks | frequency")
+      for j in listofmarks:
+        if (listofmarks.index(j)==i):
+          print(j,"|",listofmarks.count(j))
+          if  listofmarks.count(j)>Max:
+            Max =listofmarks.count(j)
+            marks=j
+          i=i+1
+      return(marks,Max)
+ 
+ #main function
+marksinFDS=[]
+numberofstudents=int(input("enter the total number of students"))
+for i in range(numberofstudents):
+      marks=int(input("enter marks of students"+str(i+1)+":"))
+      marksinFDS.append(marks)
+flag=1
+while flag==1:
+           print("\n\n________________MENU______________________")
+           print("1.total and average marks of class")
+           print("2.highest and lowest marks in the class")
+           print("3.number of students absent for the test")
+           print("4.marks with highest frequency")
+           print("5.exit\n")
+           ch=int(input("enter your choice(from 1to5):"))
+           if ch==1:
+             average(marksinFDS)
+             a=input("do you want to continue (yes/no):")
+             if  a=="yes":
+               flag=1
+             else:
+               flag=0
+               print("thanks for using this programme")
+           elif ch==2:
+             print("highest score in the class:",Maximum(marksinFDS))
+             print("lowest score in the class:",Minimum(marksinFDS)) 
+             a=input("do you want to continue (yes/no):")
+             if  a=="yes":
+               flag=1
+             else:
+               flag=0
+               print("thanks for using this programme")
+           elif ch==3:
+             print("number of students absent in the tets:",absentcount(marksinFDS))
+             a=input("do you want to continue (yes/no):")
+             if  a=="yes":
+               flag=1
+             else:
+               flag=0
+               print("thanks for using this programme")  
+           elif ch==4:
+             mark,fr=maxfrequency(marksinFDS)
+             print("highest frequency is of marks{0} that is {1}".format(mark,fr))
+             a=input("do you want to continue (yes/no):")
+             if  a=="yes":
+               flag=1
+             else:
+               flag=0
+               print("thanks for using this programme")
+           
+           elif ch==5:
+             flag=0
+             print("thanks for using this programme")
+           else:
+             print("!! wrong choice!!")
+             a=input("do you want to continue (yes/no):")
+             if  a=="yes":
+               flag=1
+             else:
+               flag=0
+               print("thanks for using this programme")
