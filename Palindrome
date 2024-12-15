@@ -1,0 +1,141 @@
+Problem Statemnt
+palindrome is a string of character that‘s the same forward and backward. Typically,
+punctuation, capitalization, and spaces are ignored. For example, ?Poor Dan is in a droop? is
+a palindrome, as can be seen by examining the characters ?
+poor danisina droop? and
+observing that they are the same forward and backward. One way to check for a
+palindrome is to reverse the characters in the string and then compare with them the
+original-in a palindrome, the sequence will be identical. Write C++ program with functions-
+1. To check whether given string is palindrome or not that uses a stack to determine whether
+a string is a palindrome.
+2. to remove spaces and punctuation in string, convert all the Characters to lowercase, and
+then call above Palindrome checking function to check for a palindrome
+3. to print string in reverse order using stack.
+
+Code
+#include <iostream>
+#include <cstring> // for strcmp
+#define MAX 100
+
+using namespace std;
+
+struct stack {
+    char data[MAX];
+    int top;
+};
+
+// Initialize stack
+void init(stack* stck) {
+    stck->top = -1;
+}
+
+// Check if stack is empty
+int isempty(stack stck) {
+    return stck.top == -1;
+}
+
+// Check if stack is full
+int isfull(stack stck) {
+    return stck.top == MAX - 1;
+}
+
+// Push data onto stack
+void push(stack* stck, const char data[MAX]) {
+    for (int i = 0; data[i] != '\0'; i++) {
+        if (!isfull(*stck)) { // Check if the stack is full before pushing
+            stck->data[++stck->top] = data[i];
+        } else {
+            cout << "\nStack is full, can't push more characters.\n";
+            break;
+        }
+    }
+}
+
+// Push data onto stack and remove spaces and convert to lowercase
+void push1(stack* stck, const char data[MAX]) {
+    for (int i = 0; data[i] != '\0'; i++) {
+        if (data[i] != ' ') { // Ignore spaces
+            if (data[i] >= 'A' && data[i] <= 'Z') { // Convert uppercase to lowercase
+                stck->data[++stck->top] = data[i] + 32;
+            } else {
+                stck->data[++stck->top] = data[i];
+            }
+        }
+    }
+}
+
+// Pop data from stack and check for palindrome
+void pop(stack* stck, const char original[MAX]) {
+    char rev[MAX];
+    int i = 0;
+
+    // Store the reversed string
+    while (!isempty(*stck)) {
+        rev[i++] = stck->data[stck->top--];
+    }
+    rev[i] = '\0'; // Null-terminate the reversed string
+
+    // Print the original and reversed strings
+    cout << "\nOriginal string is: " << original;
+    cout << "\nReversed string is: " << rev;
+
+    // Check if the original and reversed strings are the same
+    if (strcmp(rev, original) == 0) {
+        cout << "\nThe string is a palindrome.\n";
+    } else {
+        cout << "\nThe string is not a palindrome.\n";
+    }
+}
+
+// Clean the original string by removing spaces and converting to lowercase
+void cleanString(const char input[MAX], char cleaned[MAX]) {
+    int j = 0;
+    for (int i = 0; input[i] != '\0'; i++) {
+        if (input[i] != ' ') {
+            if (input[i] >= 'A' && input[i] <= 'Z') {
+                cleaned[j++] = input[i] + 32; // Convert uppercase to lowercase
+            } else {
+                cleaned[j++] = input[i];
+            }
+        }
+    }
+    cleaned[j] = '\0'; // Null-terminate the cleaned string
+}
+
+// Main function
+int main() {
+    stack stck;
+    char data[MAX] = "Eva, can I see bees in a cave"; // Example string
+    char cleaned[MAX]; // To store the cleaned version of the string
+
+    init(&stck); // Initialize stack
+    int ch;
+
+    while (true) {
+        cout << "\n1. Push the string; print reverse string and check palindrome or not (pop)";
+        cout << "\n2. Remove blank space, convert uppercase to lowercase, push the string and check palindrome or not";
+        cout << "\n3. Exit";
+        cout << "\nEnter your choice: ";
+        cin >> ch;
+        cin.ignore(); // To handle the newline character after choice input
+
+        switch (ch) {
+            case 1:
+                init(&stck); // Re-initialize stack for new operation
+                push(&stck, data); // Push original string onto stack
+                pop(&stck, data); // Check if it's a palindrome
+                break;
+            case 2:
+                init(&stck); // Re-initialize stack
+                cleanString(data, cleaned); // Clean the string (remove spaces, convert to lowercase)
+                push1(&stck, cleaned); // Push cleaned string onto stack
+                pop(&stck, cleaned); // Check if it's a palindrome
+                break;
+            case 3:
+                return 0; // Exit the program
+            default:
+                cout << "\nInvalid choice, please try again.\n";
+        }
+    }
+    return 0;
+}
