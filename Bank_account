@@ -1,0 +1,70 @@
+Code 4
+Problem Statement :
+Write a python program that computes the net amount of a bank account
+based a transaction log from console input. The transaction log format
+is shown as following: D 100 W 200 (Withdrawal is not allowed if balance
+is going negative. Write functions for withdraw and deposit) D means deposit
+while W means withdrawal.
+Suppose the following input is supplied to the program: 
+D 300  D 300  W 200  D 100  Then, the output should be: 500
+Code
+def withdrawal(amount, balance):
+    balance = balance - amount
+    return balance
+
+def deposit(amount, balance):
+    balance += amount
+    return balance
+
+def main():
+    while True:
+        print("\t\t1 : Input a new Transaction log")
+        print("\t\t2 : Exit")
+        try:
+            ch = int(input("Enter your choice: "))
+        except ValueError:
+            print("Please enter a valid number!")
+            continue
+
+        if ch == 2:
+            print("End of Program")
+            quit()
+
+        elif ch == 1:
+            balance = 0
+            list1 = []
+            print("Enter the transaction log of a user (press Enter twice to stop): ")
+            while True:
+                data = input().strip()
+                if data == "":
+                    break
+                transaction = data.split()
+                
+                # Ensure correct format of input
+                if len(transaction) != 2 or transaction[0] not in ['D', 'W']:
+                    print(f"Invalid input: {data}")
+                    continue
+            try:
+                    amount = int(transaction[1])
+                except ValueError:
+                    print(f"Invalid amount for transaction: {data}")
+                    continue
+
+                list1.append((transaction[0], amount))
+
+            # Process the transactions
+            for transaction in list1:
+                if transaction[0] == 'W':
+                    if balance < transaction[1]:
+                        print(f"[{transaction[0]} {transaction[1]}] : Transaction Declined : Insufficient balance")
+                    else:
+                        balance = withdrawal(transaction[1], balance)
+                        print(f"[{transaction[0]} {transaction[1]}] : Successful Transaction")
+                elif transaction[0] == 'D':
+                    balance = deposit(transaction[1], balance)
+                    print(f"[{transaction[0]} {transaction[1]}] : Successful Transaction")
+
+            print(f"\nTotal balance in the account: Rs {balance}
+ else:
+            print("Wrong choice entered !! Try again")
+main()
