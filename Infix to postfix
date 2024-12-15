@@ -1,0 +1,100 @@
+Code 13
+Problem Statement
+Implement C++ program for expression conversion as infix to postfix and its evaluation using stack based on given conditions:
+Operands and operator, both must be single character.
+Input Postfix expression must be in a desired format.
+Only '+', '-', '' and '/ ' operators are expected./
+
+Code 
+#include<iostream>
+#include<stack>
+using namespace std;
+
+// Function to check if a character is an operator
+bool isoperator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/' || c == '^');
+}
+
+// Function to return precedence of operators
+int precedence(char c) {       
+    if (c == '^') {
+        return 3;
+    } else if (c == '*' || c == '/') {
+        return 2;
+    } else if (c == '+' || c == '-') {
+        return 1;
+    } else {
+        return -1;
+    }
+}
+
+// Function to convert infix expression to postfix expression
+string InfixToPostfix(stack<char>& s, const string& infix) {
+    string postfix;
+    for (int i = 0; i < infix.length(); i++) {
+        // If the character is an operand, add it to the postfix expression
+        if ((infix[i] >= 'a' && infix[i] <= 'z') || (infix[i] >= 'A' && infix[i] <= 'Z')) {
+            postfix += infix[i];
+        }
+        // If the character is '(', push it to the stack
+        else if (infix[i] == '(') {
+            s.push(infix[i]);
+        }
+        // If the character is ')', pop from the stack until '(' is found
+        else if (infix[i] == ')') {
+            while (!s.empty() && s.top() != '(') {
+                postfix += s.top();
+                s.pop();
+            }
+            if (!s.empty()) {
+                s.pop(); // Pop the '(' from the stack
+            }
+        }
+        // If the character is an operator
+        else if (isoperator(infix[i])) {
+            if (s.empty()) {
+                s.push(infix[i]);
+            } else {
+                if (precedence(infix[i]) > precedence(s.top())) {
+                    s.push(infix[i]);
+                } else if (precedence(infix[i]) == precedence(s.top()) && infix[i] == '^') {
+                    s.push(infix[i]);
+                } else {
+                    while (!s.empty() && precedence(infix[i]) <= precedence(s.top())) {
+                        postfix += s.top();
+                        s.pop();
+                    }
+                    s.push(infix[i]);
+                }
+            }
+        }
+    }
+
+    // Pop all the operators from the stack
+    while (!s.empty()) {
+        postfix += s.top();
+        s.pop();
+    }
+    
+    return postfix;
+}
+
+int main() {
+    string infix_exp, postfix_exp;
+
+    // Input infix expression from the user
+    cout << "Enter an infix expression: ";
+    cin >> infix_exp;  // For input without spaces (if spaces are involved, use getline)
+
+    stack<char> stack;  // Declare a stack for storing operators
+
+    cout << "INFIX EXPRESSION: " << infix_exp << endl;
+
+    // Convert the infix expression to postfix
+    postfix_exp = InfixToPostfix(stack, infix_exp);
+
+    // Output the postfix expression
+    cout << "POSTFIX EXPRESSION: " << postfix_exp << endl;
+
+    return 0;
+}
