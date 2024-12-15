@@ -1,0 +1,82 @@
+Code 7
+Problem Statement
+Write a pythonprogram to store first year percentage of students in array.
+Write function for sorting array of floating point numbers in ascending order
+using 
+a) Selection Sort 
+b) Bubble sort and display top five scores
+
+Code
+def accept_array(A):
+   n=int(input("enter total number of students:"))
+   for i in range (n):
+     x=float(input("enter first year percentage of students%d:"%(i+1)))
+     A.append(x)
+   print("array accepted successsfully\n\n")
+def display_array(A):
+  n=len(A)
+  if(n==0):
+    print("no records in database")
+  else:
+    print("array of fe marks:",end=' ')
+    for i in range(n):
+      print("%.2f"%A[i],end=' ')
+    print("\n")
+    
+def selection_sort(A):
+   n=len(A)
+   for pos in range(n-1):
+      min_ind=pos
+      for i in range(pos+1,n):
+        if(A[i]<A[min_ind]):
+          min_ind=i
+      temp=A[pos]
+      A[pos]=A[min_ind]
+      A[min_ind]=temp
+      
+def bubble_sort(A):
+  n=len(A)
+  for Pass in range(1,n):
+    for i in range(n-Pass):
+      if(A[i]<A[i+1]):
+        temp=A[i]
+        A[i]=A[i+1]
+        A[i+1]=temp
+        
+def main():
+  A=[]
+  while True:
+    print("\t 1.:Accept and display FE marks")
+    print("\t 2.:selection sort ascending order")
+    print("\t 3.:bubble sort descending order and display top five scores")
+    print("\t 4.: exit")
+    ch=int(input("enter your choice"))
+    if(ch==4):
+      print("end of programme")
+      quit()
+    elif(ch==1):
+      accept_array(A)
+      display_array(A)
+    elif(ch==2):
+      print("marks before sorting")
+      display_array(A)
+      selection_sort(A)
+      print("marks after sorting")
+      display_array(A)
+    elif(ch==3):
+      print("marks before sorting")
+      display_array(A)
+      bubble_sort(A)
+      print("marks after sorting")
+      display_array(A)
+      if(len(A)>=5):
+        print("top five scores:")
+        for i in range (5):
+          print("\t%.2f"%A[i])
+      else:
+        print("top five scores")
+        for i in range(len(A)):
+          print("\t%.2f"%A[i])
+    else:
+      print("wrongchoice:")
+main()      
