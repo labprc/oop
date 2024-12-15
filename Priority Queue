@@ -1,0 +1,118 @@
+Code 15
+Problem Statement: Write program to implement a priority queue in C++ using an inorder list to store the items in the queue.
+Create a class that includes the data items (which should be template) and the priority (which should be int). The inorder list should contain these objects, with operator <= overloaded so that the items with highest priority appear at the start of the list (which will make it relatively easy to retrieve the highest item.)*/
+Code 
+#include <iostream>
+using namespace std;
+
+// Node structure
+struct Node {
+    int priority; // priority of the element
+    int info;     // value of the element
+    Node *next;   // pointer to the next node
+};
+
+// Priority Queue class
+class Priority_Queue {
+    private:
+        Node *front;  // front of the queue
+    public:
+        Priority_Queue() { // Constructor to initialize the front to NULL
+            front = NULL;
+        }
+
+        // Function to insert an element into the queue
+        void insert(int item, int priority) {
+            Node *temp, *q;
+            temp = new Node;  // Allocate memory for the new node
+            temp->info = item;
+            temp->priority = priority;
+            // If the queue is empty or the new node has a higher priority than the front node
+            if (front == NULL || priority < front->priority) {
+                temp->next = front;
+                front = temp;
+            } 
+            else {
+                q = front;
+                // Traverse the list and find the appropriate position for the new node
+                while (q->next != NULL && q->next->priority <= priority) {
+                    q = q->next;
+                }
+                temp->next = q->next;
+                q->next = temp;
+            }
+        }
+
+        // Function to delete the highest priority element (the front element)
+        void del() {
+            if (front == NULL) {  // Check if the queue is empty
+                cout << "Queue Underflow\n";
+            } 
+            else {
+                Node *temp;
+                temp = front;
+                cout << "Deleted item is: " << temp->info << endl;
+                front = front->next;  // Move the front to the next node
+                delete temp;  // Free the memory of the deleted node
+            }
+        }
+
+        // Function to display the priority queue
+        void show() {
+            if (front == NULL) {
+                cout << "Queue is empty\n";
+            } 
+            else {
+                Node *ptr = front;
+                cout << "Queue is:\n";
+                cout << "Priority  Item\n";
+                // Traverse the queue and print each node
+                while (ptr != NULL) {
+                    cout << ptr->priority << "         " << ptr->info << endl;
+                    ptr = ptr->next;
+                }
+            }
+        }
+};
+
+// Main function to interact with the priority queue
+int main() {
+    int choice, item, priority;
+    Priority_Queue pq;  // Create a priority queue object
+
+    do {
+        // Display the menu
+        cout << "1. Insert\n";
+        cout << "2. Delete\n";
+        cout << "3. Display\n";
+        cout << "4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                // Insert a new item into the queue
+                cout << "Input the item value to be added in the queue: ";
+                cin >> item;
+                cout << "Enter its priority: ";
+                cin >> priority;
+                pq.insert(item, priority);
+                break;
+            case 2:
+                // Delete the highest priority item from the queue
+                pq.del();
+                break;
+            case 3:
+                // Display the priority queue
+                pq.show();
+                break;
+            case 4:
+                // Exit the program
+                break;
+            default:
+                cout << "Wrong choice\n";
+        }
+    } while (choice != 4);  // Continue until the user chooses to exit
+
+    return 0;
+}
