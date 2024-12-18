@@ -1,0 +1,154 @@
+Experiment Number 2 : Develop a program in C++ to create a database of
+student’s information system
+containing the following information: Name, Roll number, Class, Division,
+Date of Birth, Blood group,
+Contactaddress, Telephone number, Driving license no. and other. Construct
+the database with
+suitable member functions. Make use of constructor, default constructor,
+copy constructor,
+destructor, static member functions, friend class, this pointer, inline
+code and dynamic
+memory allocation operators-new and delete as well as exception handling.
+*/
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Student {
+private:
+    string name;
+    int rollNumber;
+    string studentClass;
+    char division;
+    string dob;  // Date of Birth in format YYYY-MM-DD
+    string bloodGroup;
+    string contactAddress;
+    string telephoneNumber;
+    string drivingLicenseNo;
+
+public:
+    // Default constructor
+    Student() {
+        name = "";
+        rollNumber = 0;
+        studentClass = "";
+        division = ' ';
+        dob = "";
+        bloodGroup = "";
+        contactAddress = "";
+        telephoneNumber = "";
+        drivingLicenseNo = "";
+        incrementCount();  // Increment student count whenever a student is created
+    }
+
+    // Copy constructor
+    Student(const Student &s) {
+        name = s.name;
+        rollNumber = s.rollNumber;
+        studentClass = s.studentClass;
+        division = s.division;
+        dob = s.dob;
+        bloodGroup = s.bloodGroup;
+        contactAddress = s.contactAddress;
+        telephoneNumber = s.telephoneNumber;
+        drivingLicenseNo = s.drivingLicenseNo;
+        incrementCount();  // Increment student count whenever a student is created
+    } 
+
+    // Destructor
+    ~Student() {
+        cout << "Destructor called for student: " << name << endl;
+    }
+
+    // Static member function to count students
+    static int count;
+
+    static void incrementCount() {
+        count++;
+    }
+
+    static int getCount() {
+        return count;
+    }
+
+    // Member function to take data from the user
+    void inputData() {
+        cout << "Enter student's Name: ";
+        cin >> name;
+        cout << "Enter Roll Number: ";
+        cin >> rollNumber;
+        cout << "Enter Class: ";
+        cin >> studentClass;
+        cout << "Enter Division: ";
+        cin >> division;
+        cout << "Enter Date of Birth (YYYY-MM-DD): ";
+        cin >> dob;
+        cout << "Enter Blood Group: ";
+        cin >> bloodGroup;
+        cout << "Enter Contact Address: ";
+        cin >> contactAddress;
+        cout << "Enter Telephone Number: ";
+        cin >> telephoneNumber;
+        cout << "Enter Driving License No.: ";
+        cin >> drivingLicenseNo;
+    }
+
+    // Display student data
+    void displayData() const {
+        cout << "---------------------------------------------------------------" << endl;
+        cout << "\nStudent Information:\n";
+        cout << "---------------------------------------------------------------" << endl;
+        cout << "Name: " << name << endl;
+        cout << "Roll Number: " << rollNumber << endl;
+        cout << "Class: " << studentClass << endl;
+        cout << "Division: " << division << endl;
+        cout << "Date of Birth: " << dob << endl;
+        cout << "Blood Group: " << bloodGroup << endl;
+        cout << "Contact Address: " << contactAddress << endl;
+        cout << "Telephone Number: " << telephoneNumber << endl;
+        cout << "Driving License No.: " << drivingLicenseNo << endl;
+    }
+
+
+    
+
+    // Friend class to access private members
+    friend class Admin;
+};
+
+// Initialize static member
+int Student::count = 0;
+
+class Admin {
+public:
+    void displayStudentCount() {
+        cout << endl << "---------------------------------------------------------------" << endl;
+        cout << "Total students in the system: " << Student::getCount() << endl;
+        cout << "---------------------------------------------------------------" << endl;
+    }
+};
+
+int main() {
+    char choice;
+
+    do {
+        // Create student object directly
+        Student student1;
+        student1.inputData();  // User enters data
+
+        student1.displayData(); // Display student data
+        
+
+        Admin admin;
+        admin.displayStudentCount(); // Admin displays total student count
+
+        cout << "Do you want to continue? (y/Y to continue, any other key to exit): ";
+        cin >> choice;  // User input for continue or exit
+
+    } while(choice == 'y' || choice == 'Y');  // Keep looping if user enters 'y' or 'Y'
+
+    cout << "Exiting the program." << endl;
+    return 0;
+}
