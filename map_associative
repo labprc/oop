@@ -1,0 +1,60 @@
+#include<iostream>
+#include<map>
+using namespace std;
+int main(){
+    string state;
+    float population;
+    int ch;
+    char ans='y';
+
+    map<string,float>m;
+    map<string,float>::iterator i;
+
+    do{
+        cout<<"........Implementation of map assocative conatiner......... ";
+        cout<<"\n1.Insert state";
+        cout<<"\n2.Display state";
+        cout<<"\n3.Search state";
+        cout<<"\n4.Delete state";
+        cout<<"\n5.EXit";
+        cout<<"\n\nEnter your choice::";
+        cin>>ch;
+
+        switch(ch){
+            case 1:
+            cout<<"Enter the name of state:";
+            cin>>state;
+            cout<<"Enter the populatio of state:";
+            cin>>population;
+            m.insert(pair<string,float>(state,population));
+            break;
+
+            case 2:
+            cout<<"The state and thier population are:"<<endl;
+            for(i=m.begin(),i!=m.end(),i++);
+            cout<<"["(*i).first<<"  "<<(*i).second<<"]";
+            break;
+
+            case 3:
+            cout<<"ENter thr name to be sarch for their population:";
+            cin>>state;
+            if(m.count(state)!=0)
+            cout<<"the population of state is:"<<m.find(state)->second<<"Cr";
+            break;
+
+            case 4:
+            cout<<"ENter the state for delete :";
+            cin>>state;
+            m.erase(state);
+            break;
+
+            case 5:
+            exit(0);
+
+            default:
+            cout<<"Enter the correct choice:";
+            break;
+        }
+    }while (ch!=5);
+    return 0;
+}
