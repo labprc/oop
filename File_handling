@@ -1,0 +1,38 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+using namespace std;
+
+int main()
+{
+    ofstream outfile("example.txt");//create and open file for writing
+
+    if(!outfile){
+    cerr<<"Error in creating file "<<endl;
+    return 1;
+    }
+     outfile<<"Hello this is the text file"<<endl;
+     outfile<<"we are demonstartion file opertion in c++"<<endl;
+     // this will be seen in console
+
+     cout<<"File created and written successfully"<<endl;
+     outfile.close();
+
+     //reading from the file
+     ifstream infile("example.txt");//open for reading
+      
+      if(!outfile){
+    cerr<<"Error in opening file for reading "<<endl;
+    return 1;
+    }
+
+    string line;
+    cout<<"Reading from file....."<<endl;
+     
+     while(getline(infile,line))
+     {
+           cout<<line<<endl;
+     }
+     infile.close();
+     return 0;
+}
